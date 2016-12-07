@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
 import reactRouterFetch from 'react-router-fetch'
-import { toggleAppFetching, getFetching } from '../redux/is-app-fetching'
 import ReactDOM, { unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer } from 'react-dom'
 
 const FetchingIndicatorWrapper = ({ Indicator, shouldShow, ...rest }) => (
@@ -10,42 +8,40 @@ const FetchingIndicatorWrapper = ({ Indicator, shouldShow, ...rest }) => (
   </div>
 )
 
-const TransitionManager = class TransitionManager extends Component {
-
-  static contextTypes = {
-    store: PropTypes.object.isRequired
-  }
+export default class TransitionManager extends Component {
 
   static propTypes = {
     onFetchStart: PropTypes.func,
     onFetchEnd: PropTypes.func,
     onError: PropTypes.func,
     fetchInitial: PropTypes.bool,
+    showIndicatorOnInitial: PropTypes.bool,
     FetchingIndicator: PropTypes.element,
     ErrorIndicator: PropTypes.element,
     SplashScreen: PropTypes.element
   }
 
   state = {
-    isAppFetching: false
+    isAppFetching: false,
+    error: false,
+    payload: null
   }
 
-  constructor (props, context) {
-    super(props, context)
-    const { fetchInitial } = props
-    if (fetchInitial) this.fetchRoutes()
+  componentWillMount () {
+    const { fetchInitial } = this.props
+    if (fetchInitial) this.fetchRoutes(this.props)
   }
 
   componentDidMount () {
+    const { fetchInitial, showIndicatorOnInitial } = this.props
     this.node = document.createElement('div')
     document.body.appendChild(this.node)
+    if (this.state.isAppFetching && fetchInitial && showIndicatorOnInitial) this.renderLoading(true)
   }
 
   componentWillReceiveProps (nextProps) {
     const current = `${this.props.location.pathname}${this.props.location.search}`
     const next = `${nextProps.location.pathname}${nextProps.location.search}`
-    const { isAppFetching, onError } = nextProps
-    if (isAppFetching.error && onError) onError(isAppFetching.payload)
     if (current === next) {
       return
     }
@@ -55,6 +51,12 @@ const TransitionManager = class TransitionManager extends Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     return !nextState.isAppFetching
+  }
+
+  componentWillUpdate (nextProps, nextState) {
+    const { onError } = nextProps
+    const { error, payload } = nextState
+    if (error && onError) onError(payload)
   }
 
   componentWillUnmount () {
@@ -78,9 +80,8 @@ const TransitionManager = class TransitionManager extends Component {
   }
 
   fetchRoutes (nextProps) {
-    const { dispatch, onFetchStart, onFetchEnd } = this.props
+    const { onFetchStart, onFetchEnd } = this.props
     if (onFetchStart) onFetchStart()
-    dispatch(toggleAppFetching())
     this.setState({
       isAppFetching: !this.state.isAppFetching
     }, () => {
@@ -88,41 +89,40 @@ const TransitionManager = class TransitionManager extends Component {
         components: nextProps.routes.map((route) => route.component),
         params: nextProps.params,
         location: nextProps.location
-      }, false, {
-        dispatch,
-        getState: this.context.store.getState
-      })
+      }, false)
         .then(() => {
           this.setState({
             isAppFetching: !this.state.isAppFetching
           }, () => {
             this.renderLoading(false)
             if (onFetchEnd) onFetchEnd()
-            dispatch(toggleAppFetching())
           })
         },
         (err) => {
           this.setState({
-            isAppFetching: !this.state.isAppFetching
+            isAppFetching: !this.state.isAppFetching,
+            error: true,
+            payload: err
           }, () => {
             this.renderLoading(false)
             if (onFetchEnd) onFetchEnd(err)
-            dispatch(toggleAppFetching(err))
           })
         })
     })
   }
 
   render () {
-    const { ErrorIndicator, isAppFetching, SplashScreen, fetchInitial } = this.props
-    if (isAppFetching.error) {
+    const { ErrorIndicator, SplashScreen, fetchInitial } = this.props
+    const { error, isAppFetching } = this.state
+
+    if (error) {
       return (
         <div>
           {React.cloneElement(ErrorIndicator, {...this.props})}
         </div>
       )
     }
-    if (fetchInitial) {
+    if (fetchInitial && isAppFetching && SplashScreen) {
       return (
         <div>
           {SplashScreen}
@@ -137,16 +137,3 @@ const TransitionManager = class TransitionManager extends Component {
   }
 
 }
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    isAppFetching: getFetching(state),
-    location: ownProps.location,
-    params: ownProps.params,
-    routes: ownProps.routes
-  }
-}
-
-export default connect(
-  mapStateToProps
-)(TransitionManager)

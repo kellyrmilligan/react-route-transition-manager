@@ -1,6 +1,6 @@
 {
-  "name": "react-redux-transition-manager",
-  "version": "1.1.0",
+  "name": "react-route-transition-manager",
+  "version": "1.0.0",
   "description": "Higher order component to enable loading states between route transitions",
   "main": "lib/index.js",
   "scripts": {
@@ -35,10 +35,10 @@
     "testRegex": "(/__tests__/.*|\\.(test))\\.js$",
     "coverageThreshold": {
       "global": {
-        "branches": 75,
-        "functions": 75,
-        "lines": 75,
-        "statements": 75
+        "branches": 10,
+        "functions": 10,
+        "lines": 10,
+        "statements": 10
       }
     },
     "coveragePathIgnorePatterns": [
@@ -53,9 +53,7 @@
   "peerDependencies": {
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
-    "react-redux": "^4.4.5",
-    "reselect": "^2.5.4",
-    "redux": "^3.6.0",
+    "react-router": "^3.0.0",
     "react-router-fetch": "^1.0.0"
   },
   "devDependencies": {
@@ -70,17 +68,16 @@
     "babel-runtime": "^6.11.6",
     "coveralls": "^2.11.15",
     "cross-env": "^2.0.1",
+    "enzyme": "^2.6.0",
     "jest": "^15.1.1",
     "nodemon": "^1.9.0",
     "npm-run-all": "^1.5.1",
     "onchange": "^3.0.2",
     "react": "^15.3.0",
+    "react-addons-test-utils": "^15.4.1",
     "react-dom": "^15.3.0",
-    "react-redux": "^4.4.5",
     "react-router": "^3.0.0",
     "react-router-fetch": "^1.0.0",
-    "redux": "^3.6.0",
-    "reselect": "^2.5.4",
     "rimraf": "^2.5.4",
     "snazzy": "^5.0.0",
     "source-map-support": "^0.4.0",
