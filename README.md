@@ -6,6 +6,9 @@ Higher order component to enable loading states between route transitions and fe
 [![Build Status](https://travis-ci.org/kellyrmilligan/react-route-transition-manager.svg?branch=master)](https://travis-ci.org/kellyrmilligan/react-route-transition-manager)
 [![Coverage Stat1`us](https://coveralls.io/repos/github/kellyrmilligan/react-route-transition-manager/badge.svg?branch=master)](https://coveralls.io/github/kellyrmilligan/react-route-transition-manager?branch=master)
 
+
+![transiton-manager-example](https://cloud.githubusercontent.com/assets/2642088/20978729/9466bed2-bc6f-11e6-838a-a13d0b6a6509.gif)
+
 ## Why?
 There is a lot of boilerplate involved when using react router and fetching the necessary data when transitioning from route to route. This is an attempt to simplify this process with 2 primary features:
 
