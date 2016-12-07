@@ -1,6 +1,6 @@
 {
   "name": "react-route-transition-manager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Higher order component to enable loading states between route transitions",
   "main": "lib/index.js",
   "scripts": {
