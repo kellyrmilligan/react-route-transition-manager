@@ -16,7 +16,7 @@ inspired by https://github.com/ReactTraining/react-router/issues/2101
 
 ## Wrap your App in the transition manager component
 
-in your top level component, wrap it's contents with transition manger like so...
+in your top level component, between react router and your app, wrap it's contents with transition manger like so...
 
 ```js
 import TransitionManager from 'react-route-transition-manager'
