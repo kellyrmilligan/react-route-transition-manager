@@ -16,12 +16,10 @@ There is a lot of boilerplate involved when using react router and fetching the 
 
 inspired by https://github.com/ReactTraining/react-router/issues/2101
 
-
 ## redux
 If you use redux, there is a version of this component with some redux niceness built in.
 
 [reactRouterFetch](https://github.com/kellyrmilligan/react-router-fetch)
-
 
 ## Wrap your App in the transition manager component
 
