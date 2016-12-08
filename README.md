@@ -8,6 +8,9 @@ Higher order component to enable loading states between route transitions and fe
 
 ![transiton-manager-example](https://cloud.githubusercontent.com/assets/2642088/20978729/9466bed2-bc6f-11e6-838a-a13d0b6a6509.gif)
 
+## Example app
+A super simple app example has been created at [https://github.com/kellyrmilligan/react-route-transition-manager-example](https://github.com/kellyrmilligan/react-route-transition-manager-example)
+
 ## Why?
 There is a lot of boilerplate involved when using react router and fetching the necessary data when transitioning from route to route. This is an attempt to simplify this process with 2 primary features:
 
